@@ -10,7 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -54,6 +58,32 @@ public class DataSeeder implements CommandLineRunner {
         movie("Mùa Hè Năm Ấy", "Đỗ Lan", 110, AgeRating.T16, romance, MovieStatus.COMING_SOON, 14);
         movie("Vũ Trụ Song Song", "Ngô Tùng", 140, AgeRating.T13, action, MovieStatus.COMING_SOON, 30);
         Movie m6 = movie("Huyền Thoại Cũ", "Vũ Bình", 100, AgeRating.P, anime, MovieStatus.STOPPED, -120);
+
+        // ---- Rooms ----
+        Room r1 = roomRepository.save(new Room("Room 01", RoomType.TWO_D, 8, 12, RoomStatus.ACTIVE));
+        Room r2 = roomRepository.save(new Room("Room 02", RoomType.THREE_D, 10, 14, RoomStatus.ACTIVE));
+        roomRepository.save(new Room("Room 03", RoomType.IMAX, 12, 16, RoomStatus.MAINTENANCE));
+
+        // ---- Showtimes ----
+        LocalDate today = LocalDate.now();
+        Showtime past = showtime(m6, r1, today.minusDays(3).atTime(19, 0), 70000, ShowtimeStatus.OPEN);
+        Showtime pastAction = showtime(m1, r2, today.minusDays(2).atTime(20, 0), 90000, ShowtimeStatus.OPEN);
+        Showtime s1 = showtime(m1, r1, today.plusDays(1).atTime(9, 0), 80000, ShowtimeStatus.OPEN);
+        Showtime s2 = showtime(m2, r1, today.plusDays(1).atTime(14, 0), 70000, ShowtimeStatus.OPEN);
+        Showtime s3 = showtime(m3, r2, today.plusDays(1).atTime(21, 0), 95000, ShowtimeStatus.OPEN);
+        showtime(m1, r2, today.plusDays(2).atTime(18, 30), 90000, ShowtimeStatus.OPEN);
+        showtime(m2, r2, today.plusDays(3).atTime(10, 0), 70000, ShowtimeStatus.OPEN);
+        showtime(m3, r1, today.plusDays(3).atTime(20, 0), 85000, ShowtimeStatus.CANCELLED);
+
+        // ---- Bookings (đủ 3 trạng thái, trải nhiều ngày) ----
+        booking(an, past, today.minusDays(5), BookingStatus.CONFIRMED, "C5", "C6");
+        booking(an, pastAction, today.minusDays(4), BookingStatus.CONFIRMED, "D7");
+        booking(binh, s2, today.minusDays(1), BookingStatus.CONFIRMED, "A1", "A2", "A3");
+        booking(an, s1, today, BookingStatus.PENDING, "E5", "E6");
+        booking(binh, s1, today, BookingStatus.CANCELLED, "F1");
+        booking(an, s3, today, BookingStatus.PENDING, "B4");
+
+        log.info(">>> Seed completed");
     }
 
     private Customer customer(String name, String email, String mobile, LocalDate birthday, String cccd) {
@@ -82,5 +112,27 @@ public class DataSeeder implements CommandLineRunner {
         m.setDescription("Nội dung phim " + title + ".");
         m.setPosterUrl("https://placehold.co/300x450?text=" + title.replace(' ', '+'));
         return movieRepository.save(m);
+    }
+
+    private Showtime showtime(Movie movie, Room room, LocalDateTime start, long price, ShowtimeStatus status) {
+        Showtime s = new Showtime();
+        s.setMovie(movie);
+        s.setRoom(room);
+        s.setStartTime(start);
+        s.setEndTime(start.plusMinutes(movie.getDuration() + 15));
+        s.setTicketPrice(BigDecimal.valueOf(price));
+        s.setStatus(status);
+        return showtimeRepository.save(s);
+    }
+
+    private void booking(Customer customer, Showtime showtime, LocalDate date, BookingStatus status, String... seats) {
+        Booking b = new Booking();
+        b.setCustomer(customer);
+        b.setShowtime(showtime);
+        b.setBookingDate(date.atTime(LocalTime.of(10, 30)));
+        b.setStatus(status);
+        b.setTotalAmount(showtime.getTicketPrice().multiply(BigDecimal.valueOf(seats.length)));
+        List.of(seats).forEach(seat -> b.addTicket(new Ticket(showtime, seat, showtime.getTicketPrice())));
+        bookingRepository.save(b);
     }
 }
