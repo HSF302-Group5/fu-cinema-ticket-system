@@ -1,4 +1,4 @@
-package config;
+package com.fu.cinema.config;
 
 public class PasswordConfig {
 }

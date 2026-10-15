@@ -1,4 +1,4 @@
-package controller;
+package com.fu.cinema.controller;
 
 public class GlobalModelAttributes {
 }
