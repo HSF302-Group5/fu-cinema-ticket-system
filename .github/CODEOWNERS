@@ -1,0 +1,79 @@
+# ==============================================================================
+# GitHub CODEOWNERS — FU Cinema Ticket System (FUCinemaTicketSystem)
+# Cấu hình phân công sở hữu mã nguồn cho nhóm 4 thành viên theo Domain (Assignment1_Issues_List.md):
+#   - A (Team Leader / Maintainer): Dương Trong (@duongtrong06tk)
+#   - B (Developer):           Ngô Viết Bảo Huy (@member-B)
+#   - C (Developer):           Phạm Minh Đức (@member-C)
+#   - D (Developer):           Nguyễn Lâm Thi (@member-D)
+#
+# Lưu ý về quy tắc GitHub:
+#   1. Thứ tự ưu tiên: Dòng nằm DƯỚI CÙNG khớp với file sẽ có quyền ưu tiên cao nhất.
+#   2. Cần thay thế các username placeholder (@member-B, @member-C, @member-D)
+#      bằng username GitHub thật của các bạn trong nhóm.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Người sở hữu mặc định cho toàn bộ repository (Leader - Dương Trong)
+# ------------------------------------------------------------------------------
+*                                                   @duongtrong06tk
+
+# ------------------------------------------------------------------------------
+# 2. Nền tảng, cấu hình, build, hạ tầng dùng chung & báo cáo (Leader - Dương Trong)
+#    - Issue #2: Project setup, configuration, layout (TODO 1-3)
+#    - Issue #3: Entities & Repositories skeleton (TODO 4-7, 9, 10)
+#    - Issue #4: Seed sample data (TODO 8)
+#    - Issue #5: Service contracts, Exceptions, Global error handling (TODO 11, 12)
+#    - Issue #6: Authentication & Role-based Interceptor (TODO 13-15)
+#    - Issue #17: Revenue report & Admin dashboard (TODO 26)
+#    - Issue #19: README & Release v1.0.0 (TODO 32)
+# ------------------------------------------------------------------------------
+**/pom.xml                                          @duongtrong06tk
+**/application*.properties*                         @duongtrong06tk
+**/src/main/resources/application*                  @duongtrong06tk
+**/config/**                                        @duongtrong06tk
+**/exception/**                                     @duongtrong06tk
+**/entity/**                                        @duongtrong06tk
+**/*Seed*                                           @duongtrong06tk
+**/*DataSeeder*                                     @duongtrong06tk
+**/*Auth*                                           @duongtrong06tk
+**/*Login*                                          @duongtrong06tk
+**/*Register*                                       @duongtrong06tk
+**/*Interceptor*                                    @duongtrong06tk
+**/*Report*                                         @duongtrong06tk
+**/*Dashboard*                                      @duongtrong06tk
+
+# ------------------------------------------------------------------------------
+# 3. Domain NỘI DUNG & PHIM (Developer C - Phạm Minh Đức)
+#    - Issue #8: Admin Genre CRUD (TODO 18)
+#    - Issue #9: Admin Movie CRUD with filters & soft delete (TODO 19-21)
+#    - Issue #13: Customer Home page & Movie detail with showtimes (TODO 27)
+#    - Issue #18: Customer Movie review & Rating aggregate (TODO 31)
+# ------------------------------------------------------------------------------
+**/*Genre*                                          @member-C
+**/*Movie*                                          @member-C
+**/*Review*                                         @member-C
+
+# ------------------------------------------------------------------------------
+# 4. Domain VẬN HÀNH & BÁN VÉ (Developer D - Nguyễn Lâm Thi)
+#    - Issue #10: Admin Room CRUD (TODO 22)
+#    - Issue #11: Admin Showtime scheduling & overlap check (TODO 23)
+#    - Issue #12: Admin Booking management & status workflow (TODO 24, 25)
+#    - Issue #14: Online seat selection & multi-seat booking (TODO 28)
+# ------------------------------------------------------------------------------
+**/*Room*                                           @member-D
+**/*Showtime*                                       @member-D
+**/*Seat*                                           @member-D
+**/*Ticket*                                         @member-D
+**/*Booking*                                        @member-D
+
+# ------------------------------------------------------------------------------
+# 5. Domain KHÁCH HÀNG (Developer B - Ngô Viết Bảo Huy)
+#    - Issue #7: Admin Customer management (TODO 16, 17)
+#    - Issue #15: Customer Booking history & cancellation (TODO 29)
+#    - Issue #16: Customer Profile management & change password (TODO 30)
+# ------------------------------------------------------------------------------
+**/*Customer*                                       @member-B
+**/*Profile*                                        @member-B
+**/controller/customer/*Booking*                    @member-B
+**/service/*BookingHistory*                         @member-B
+**/dto/*BookingHistory*                             @member-B
