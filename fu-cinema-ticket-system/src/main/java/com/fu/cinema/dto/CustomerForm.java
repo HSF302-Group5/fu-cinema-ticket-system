@@ -35,7 +35,7 @@ public class CustomerForm {
     private String identityCard;
 
     @Pattern(regexp = "^$|^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$",
-             message = "Mật khẩu ≥ 8 ký tự, có chữ hoa, chữ thường và chữ số")
+            message = "Mật khẩu ≥ 8 ký tự, có chữ hoa, chữ thường và chữ số")
     private String password;
 
     @NotNull
