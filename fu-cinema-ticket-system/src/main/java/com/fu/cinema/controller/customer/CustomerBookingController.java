@@ -35,12 +35,21 @@ public class CustomerBookingController {
         return "customer/bookings";
     }
 
+    /**
+     * Xem chi tiết đơn vé.
+     * Chống lỗi bảo mật IDOR: getDetailForCustomer ném ResourceNotFoundException (404)
+     * nếu đơn không thuộc về khách hàng đang đăng nhập, không tiết lộ sự tồn tại của đơn.
+     */
     @GetMapping("/bookings/{id}")
     public String detail(@PathVariable Long id, HttpSession session, Model model) {
         model.addAttribute("booking", bookingService.getDetailForCustomer(id, SessionUtils.getCurrentCustomerId(session)));
         return "customer/booking-detail";
     }
 
+    /**
+     * Huỷ đơn vé theo quy tắc nghiệp vụ BR-14 (trước giờ chiếu ít nhất 2 giờ).
+     * Kiểm tra quyền sở hữu đơn trước khi huỷ.
+     */
     @PostMapping("/bookings/{id}/cancel")
     public String cancel(@PathVariable Long id, HttpSession session, RedirectAttributes ra) {
         try {
