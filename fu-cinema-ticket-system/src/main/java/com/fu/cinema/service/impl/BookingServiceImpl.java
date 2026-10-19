@@ -164,7 +164,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking getDetail(Long bookingId) {
-        throw new UnsupportedOperationException("Sẽ triển khai ở Commit 2");
+        return bookingRepository.findDetailById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Đơn đặt vé", bookingId));
     }
 
     @Override
