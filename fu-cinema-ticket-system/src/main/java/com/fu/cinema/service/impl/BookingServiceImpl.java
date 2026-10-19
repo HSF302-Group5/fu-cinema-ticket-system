@@ -171,13 +171,21 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public void confirm(Long bookingId) {
-        throw new UnsupportedOperationException("Sẽ triển khai ở TODO 25");
+        Booking booking = getDetail(bookingId);
+        if (booking.getStatus() != BookingStatus.PENDING) {                               // BR-13
+            throw new BusinessException("Chỉ xác nhận được đơn đang ở trạng thái PENDING");
+        }
+        booking.setStatus(BookingStatus.CONFIRMED);
     }
 
     @Override
     @Transactional
     public void cancelByAdmin(Long bookingId) {
-        throw new UnsupportedOperationException("Sẽ triển khai ở TODO 25");
+        Booking booking = getDetail(bookingId);
+        if (booking.getStatus() == BookingStatus.CANCELLED) {
+            throw new BusinessException("Đơn đã được huỷ trước đó");
+        }
+        booking.setStatus(BookingStatus.CANCELLED);
     }
 
     @Override
