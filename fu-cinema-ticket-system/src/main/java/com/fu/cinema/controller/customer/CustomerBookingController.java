@@ -2,9 +2,11 @@ package com.fu.cinema.controller.customer;
 
 import com.fu.cinema.dto.BookingRequest;
 import com.fu.cinema.entity.Booking;
+import com.fu.cinema.enums.BookingStatus;
 import com.fu.cinema.exception.BusinessException;
 import com.fu.cinema.service.BookingService;
 import com.fu.cinema.service.ShowtimeService;
+import com.fu.cinema.util.PageUtils;
 import com.fu.cinema.util.SessionUtils;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -26,14 +28,14 @@ public class CustomerBookingController {
         this.bookingService = bookingService;
     }
 
-    // 1. Lấy sơ đồ ghế và danh sách ghế đã bán của suất chiếu
+    // 1. Sơ đồ ghế
     @GetMapping("/showtimes/{id}/seats")
     public String seats(@PathVariable Long id, Model model) {
         model.addAttribute("seatMap", showtimeService.getSeatMap(id));
         return "customer/seats";
     }
 
-    // 2. Xử lý đặt vé (BR-12: Booking + Tickets trong 1 Transaction)
+    // 2. Đặt vé chọn ghế
     @PostMapping("/bookings")
     public String book(@Valid @ModelAttribute BookingRequest request,
                        BindingResult br,
@@ -53,5 +55,36 @@ public class CustomerBookingController {
             return back;
         }
     }
-}
 
+    // 3. Lịch sử đặt vé
+    @GetMapping("/bookings")
+    public String history(@RequestParam(required = false) BookingStatus status,
+                          @RequestParam(defaultValue = "0") int page,
+                          HttpSession session, Model model) {
+        model.addAttribute("bookings", bookingService.findByCustomer(
+                SessionUtils.getCurrentCustomerId(session), status, page, PageUtils.DEFAULT_SIZE));
+        model.addAttribute("statuses", BookingStatus.values());
+        model.addAttribute("status", status);
+        model.addAttribute("pageUrl", PageUtils.currentUrlWithoutPage());
+        return "customer/bookings";
+    }
+
+    // 4. Chi tiết đơn đặt vé của khách
+    @GetMapping("/bookings/{id}")
+    public String detail(@PathVariable Long id, HttpSession session, Model model) {
+        model.addAttribute("booking", bookingService.getDetailForCustomer(id, SessionUtils.getCurrentCustomerId(session)));
+        return "customer/booking-detail";
+    }
+
+    // 5. Khách huỷ đơn (trước giờ chiếu >= 2 tiếng)
+    @PostMapping("/bookings/{id}/cancel")
+    public String cancel(@PathVariable Long id, HttpSession session, RedirectAttributes ra) {
+        try {
+            bookingService.cancelByCustomer(id, SessionUtils.getCurrentCustomerId(session));
+            ra.addFlashAttribute("success", "Đã huỷ đơn #" + id);
+        } catch (BusinessException e) {
+            ra.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/customer/bookings/" + id;
+    }
+}
