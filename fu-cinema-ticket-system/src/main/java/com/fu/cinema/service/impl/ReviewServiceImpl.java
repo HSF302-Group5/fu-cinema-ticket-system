@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReviewServiceImpl implements ReviewService {
-
     private final ReviewRepository reviewRepository;
     private final BookingRepository bookingRepository;
     private final CustomerRepository customerRepository;
@@ -55,11 +54,11 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void save(Long customerId, Long movieId, ReviewForm form) {
-        if (!canReview(customerId, movieId)) {
+        if (!canReview(customerId, movieId)) {                                            // BR-16
             throw new BusinessException("Bạn chỉ có thể đánh giá phim đã xem");
         }
         ReviewId id = new ReviewId(customerId, movieId);
-        Review review = reviewRepository.findById(id).orElseGet(() -> {
+        Review review = reviewRepository.findById(id).orElseGet(() -> {                  // khoá kép → thêm mới hoặc sửa
             Review r = new Review();
             r.setId(id);
             r.setCustomer(customerRepository.getReferenceById(customerId));
@@ -71,4 +70,5 @@ public class ReviewServiceImpl implements ReviewService {
         review.setReviewDate(LocalDateTime.now());
         reviewRepository.save(review);
     }
+
 }

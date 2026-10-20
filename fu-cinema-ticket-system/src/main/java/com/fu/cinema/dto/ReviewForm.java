@@ -15,3 +15,4 @@ public class ReviewForm {
     @Size(max = 1000)
     private String comment;
 }
+
