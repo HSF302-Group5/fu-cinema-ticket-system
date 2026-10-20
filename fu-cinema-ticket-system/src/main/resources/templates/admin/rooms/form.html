@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/layout :: head(${isEdit} ? 'Sửa phòng chiếu' : 'Thêm phòng chiếu')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4" style="max-width: 650px">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h4 class="mb-0" th:text="${isEdit} ? 'Chỉnh sửa phòng chiếu' : 'Thêm phòng chiếu mới'"></h4>
+        </div>
+        <div class="card-body p-4">
+            <div th:replace="~{fragments/layout :: flash}"></div>
+
+            <form method="post" th:object="${roomForm}" novalidate
+                  th:action="${isEdit} ? @{/admin/rooms/{id}(id=*{roomId})} : @{/admin/rooms}">
+
+                <input type="hidden" th:field="*{roomId}" th:if="${isEdit}"/>
+
+                <!-- Tên phòng -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tên phòng chiếu <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:field="*{roomName}"
+                           placeholder="Ví dụ: Room 01, Cinema 3..."
+                           th:errorclass="is-invalid"/>
+                    <div class="invalid-feedback" th:errors="*{roomName}"></div>
+                </div>
+
+                <!-- Loại phòng -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Loại phòng <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{roomType}" th:errorclass="is-invalid">
+                        <option value="">-- Chọn loại phòng --</option>
+                        <option th:each="type : ${roomTypes}"
+                                th:value="${type}"
+                                th:text="${type}"></option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{roomType}"></div>
+                </div>
+
+                <!-- Kích thước hàng & ghế -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Số hàng ghế (1 - 26) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" th:field="*{totalRows}" min="1" max="26"
+                               placeholder="Tối đa 26 hàng (A - Z)"
+                               th:errorclass="is-invalid"/>
+                        <div class="invalid-feedback" th:errors="*{totalRows}"></div>
+                        <small class="text-muted">Tương ứng các hàng A đến Z</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Số ghế mỗi hàng (1 - 30) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" th:field="*{seatsPerRow}" min="1" max="30"
+                               placeholder="Tối đa 30 ghế"
+                               th:errorclass="is-invalid"/>
+                        <div class="invalid-feedback" th:errors="*{seatsPerRow}"></div>
+                        <small class="text-muted">Tối đa 30 ghế / hàng</small>
+                    </div>
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Trạng thái <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{status}" th:errorclass="is-invalid">
+                        <option th:each="st : ${roomStatuses}"
+                                th:value="${st}"
+                                th:text="${st.name() == 'ACTIVE'} ? 'HOẠT ĐỘNG (ACTIVE)' : 'BẢO TRÌ (MAINTENANCE)'"></option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{status}"></div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-save"></i> Lưu thông tin
+                    </button>
+                    <a class="btn btn-outline-secondary" th:href="@{/admin/rooms}">Huỷ bỏ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
