@@ -77,7 +77,7 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Long> {
             LEFT JOIN showtimes s
                    ON s.room_id = r.room_id
                   AND s.status = 'OPEN'
-                  AND CAST(s.start_time AS DATE) = CAST(GETDATE() AS DATE)
+                  AND CAST(s.start_time AS DATE) = CAST(CURRENT_TIMESTAMP AS DATE)
             GROUP BY r.room_name
             ORDER BY r.room_name
             """, nativeQuery = true)
