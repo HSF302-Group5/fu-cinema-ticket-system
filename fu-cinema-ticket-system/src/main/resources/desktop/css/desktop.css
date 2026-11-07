@@ -66,3 +66,97 @@
 .chart-bar {
     -fx-bar-fill: #e50914;
 }
+
+/* Sơ đồ ghế SeatMapView (TODO 42) */
+.seat-map-view {
+    -fx-padding: 16;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.screen-bar {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 3;
+}
+
+.screen-label {
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+
+.seat-row-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-font-size: 13px;
+}
+
+.seat {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #334155;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.seat:hover {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #94a3b8;
+}
+
+.seat:selected, .seat.seat-selected {
+    -fx-background-color: #16a34a;
+    -fx-border-color: #15803d;
+    -fx-text-fill: white;
+}
+
+.seat:sold, .seat.seat-sold {
+    -fx-background-color: #9ca3af;
+    -fx-border-color: #6b7280;
+    -fx-text-fill: #374151;
+    -fx-opacity: 0.85;
+    -fx-cursor: default;
+}
+
+.seat-legend-box {
+    -fx-padding: 10 16;
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 6;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6;
+}
+
+.seat-sample {
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-width: 1.5;
+}
+
+.seat-sample-available {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+}
+
+.seat-sample-selected {
+    -fx-background-color: #16a34a;
+    -fx-border-color: #15803d;
+}
+
+.seat-sample-sold {
+    -fx-background-color: #9ca3af;
+    -fx-border-color: #6b7280;
+}
+
+.legend-label {
+    -fx-text-fill: #475569;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
