@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import com.fu.cinema.desktop.component.SeatMapView?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.fu.cinema.desktop.controller.CounterSaleController"
       styleClass="page" spacing="12">
-    <Label text="Bán vé tại quầy" styleClass="page-title"/>
-    <Label text="Khu vực sơ đồ ghế và bán vé tại quầy (Đang tải...)"/>
-</VBox>
 
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="16">
+        <Label text="BÁN VÉ TẠI QUẦY — SƠ ĐỒ CHỌN GHẾ" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox spacing="8" alignment="CENTER_RIGHT"
+              style="-fx-background-color: white; -fx-padding: 8 16; -fx-background-radius: 6; -fx-border-color: #e5e7eb; -fx-border-radius: 6;">
+            <Label text="Ghế đang chọn:" style="-fx-font-weight: bold; -fx-text-fill: #4b5563;"/>
+            <Label fx:id="lblSelectedSeats" text="Chưa chọn ghế nào"
+                   style="-fx-font-weight: bold; -fx-text-fill: #15803d;"/>
+            <Separator orientation="VERTICAL"/>
+            <Label text="Số lượng:" style="-fx-font-weight: bold; -fx-text-fill: #4b5563;"/>
+            <Label fx:id="lblSeatCount" text="0 / 8"
+                   style="-fx-font-weight: bold; -fx-text-fill: #e50914; -fx-font-size: 14px;"/>
+            <Button fx:id="btnClearSeats" text="Bỏ chọn tất cả" onAction="#onClearSeats"
+                    style="-fx-background-color: #fee2e2; -fx-text-fill: #dc2626; -fx-font-weight: bold;"/>
+        </HBox>
+    </HBox>
+
+    <!-- Component Sơ đồ ghế SeatMapView độc lập (TODO 42) -->
+    <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS"
+                style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+        <VBox alignment="CENTER" spacing="16" style="-fx-padding: 10;">
+            <SeatMapView fx:id="seatMapView"/>
+        </VBox>
+    </ScrollPane>
+</VBox>
