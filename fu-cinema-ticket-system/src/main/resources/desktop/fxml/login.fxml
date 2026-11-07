@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER" spacing="10" styleClass="page">
+    <Label text="FU CINEMA — QUẦY VÉ" styleClass="page-title"/>
+    <Label text="Màn hình đăng nhập nhân viên (TODO 36)"/>
+</VBox>
+
