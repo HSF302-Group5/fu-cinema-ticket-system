@@ -1,3 +1,4 @@
+.login              { -fx-background-color: #f9fafb; -fx-padding: 40; }
 .root               { -fx-font-family: "Segoe UI"; -fx-font-size: 13px; }
 .sidebar            { -fx-background-color: #1f2937; -fx-padding: 12; -fx-pref-width: 200; }
 .sidebar .button    { -fx-background-color: transparent; -fx-text-fill: #e5e7eb; -fx-alignment: center-left; }

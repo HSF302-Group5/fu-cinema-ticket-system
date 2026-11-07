@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      alignment="CENTER" spacing="10" styleClass="page">
+<VBox fx:id="form" alignment="CENTER" spacing="10" styleClass="login"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.fu.cinema.desktop.controller.LoginController">
     <Label text="FU CINEMA — QUẦY VÉ" styleClass="page-title"/>
-    <Label text="Màn hình đăng nhập nhân viên (TODO 36)"/>
+    <TextField fx:id="tfUsername" promptText="Email đăng nhập" maxWidth="320"/>
+    <PasswordField fx:id="pfPassword" promptText="Mật khẩu" maxWidth="320"/>
+    <Button fx:id="btnLogin" text="Đăng nhập" defaultButton="true" onAction="#onLogin"
+            styleClass="primary" maxWidth="320"/>
+    <ProgressIndicator fx:id="progress" visible="false" prefWidth="28" prefHeight="28"/>
 </VBox>
-
