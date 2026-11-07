@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class DesktopSession {
 
     private volatile SessionUser user; // đọc được từ background thread
-    private final ReadOnlyStringWrapper displayName = new ReadOnlyStringWrapper("Quản trị viên");
+    private final ReadOnlyStringWrapper displayName = new ReadOnlyStringWrapper("");
 
     public void login(SessionUser user) { // gọi trên FX thread
         this.user = user;
