@@ -1,8 +1,7 @@
 package com.fu.cinema.desktop;
 
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
+import com.fu.cinema.desktop.navigation.SceneManager;
+import com.fu.cinema.desktop.navigation.View;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -11,11 +10,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
+    private final SceneManager sceneManager;
+
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
-        Stage stage = event.getStage();
-        stage.setTitle("FU Cinema Desktop");
-        stage.setScene(new Scene(new Label("FU Cinema Desktop"), 800, 600));
-        stage.show();
+        sceneManager.init(event.getStage());
+        sceneManager.switchTo(View.MAIN);
     }
 }
