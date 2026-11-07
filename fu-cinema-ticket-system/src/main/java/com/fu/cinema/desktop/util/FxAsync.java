@@ -30,7 +30,7 @@ public class FxAsync implements DisposableBean {
         Task<T> task = new Task<>() {
             @Override
             protected T call() throws Exception {
-                return work.call(); // background — KHÔNG đụng UI ở đây
+                return work.call(); // background thread - KHÔNG đụng UI ở đây
             }
         };
         if (busy != null) {
@@ -48,9 +48,16 @@ public class FxAsync implements DisposableBean {
         return task;
     }
 
-    /** Cho thao tác không trả kết quả (xoá, xác nhận…). */
+    /** Cho thao tác không trả kết quả (xoá, cập nhật trạng thái…). */
     public Task<Void> runVoid(Runnable work, Runnable onSuccess, Node busy) {
-        return run(() -> { work.run(); return null; }, v -> onSuccess.run(), AlertUtil::showError, busy);
+        return run(() -> {
+            work.run();
+            return null;
+        }, v -> onSuccess.run(), AlertUtil::showError, busy);
+    }
+
+    public Task<Void> runVoid(Runnable work, Runnable onSuccess) {
+        return runVoid(work, onSuccess, null);
     }
 
     @Override
