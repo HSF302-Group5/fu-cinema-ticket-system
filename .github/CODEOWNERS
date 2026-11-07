@@ -1,7 +1,7 @@
 # ==============================================================================
 # GitHub CODEOWNERS — FU Cinema Ticket System (FUCinemaTicketSystem)
 # Cấu hình phân công sở hữu mã nguồn cho nhóm 4 thành viên theo Domain:
-#   - A (Team Leader / Maintainer): Dương Trọng (@duogtrog06tk)
+#   - A (Team Leader / Maintainer): Dương Trong (@duogtrog06tk)
 #   - B (Developer):                Phạm Minh Đức (@ducminh14-cmd)
 #   - C (Developer):                Ngô Viết Bảo Huy (@ngo17574-ops)
 #   - D (Developer):                Nguyễn Lâm Thi (@nguyenlamthi)
@@ -11,12 +11,12 @@
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# 1. Người sở hữu mặc định cho toàn bộ repository (Leader - Dương Trọng)
+# 1. Người sở hữu mặc định cho toàn bộ repository (Leader - Dương Trong)
 # ------------------------------------------------------------------------------
 *                                                   @duogtrog06tk
 
 # ------------------------------------------------------------------------------
-# 2. Nền tảng, cấu hình, build, hạ tầng dùng chung & báo cáo (Leader - Dương Trọng)
+# 2. Nền tảng, cấu hình, build, hạ tầng dùng chung & báo cáo (Leader - Dương Trong)
 # ------------------------------------------------------------------------------
 **/pom.xml                                          @duogtrog06tk
 **/application*.properties*                         @duogtrog06tk
@@ -61,7 +61,7 @@
 **/dto/*BookingHistory*                             @ducminh14-cmd
 
 # ------------------------------------------------------------------------------
-# 6. ASSIGNMENT 02 — DESKTOP EXTENSION (Leader A - Dương Trọng)
+# 6. ASSIGNMENT 02 — DESKTOP EXTENSION (Leader A - Dương Trong)
 #    - Toàn bộ package com.fu.cinema.desktop và tài nguyên desktop do Leader A phê duyệt
 # ------------------------------------------------------------------------------
 **/src/main/java/com/fu/cinema/desktop/**           @duogtrog06tk
