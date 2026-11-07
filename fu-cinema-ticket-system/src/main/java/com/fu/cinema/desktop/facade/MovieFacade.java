@@ -42,6 +42,12 @@ public class MovieFacade {
         return movieService.getForm(movieId);
     }
 
+    public record MovieDialogData(List<GenreItem> genres, MovieForm form) {}
+
+    public MovieDialogData getDialogData(Long movieId) {
+        return new MovieDialogData(genres(), movieId == null ? new MovieForm() : getForm(movieId));
+    }
+
     @Transactional
     public void save(MovieForm form) {
         session.requireAdmin();
