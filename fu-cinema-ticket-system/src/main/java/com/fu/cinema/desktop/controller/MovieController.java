@@ -3,6 +3,9 @@ package com.fu.cinema.desktop.controller;
 import com.fu.cinema.desktop.facade.MovieFacade;
 import com.fu.cinema.desktop.model.GenreItem;
 import com.fu.cinema.desktop.model.MovieRow;
+import com.fu.cinema.desktop.navigation.SceneManager;
+import com.fu.cinema.desktop.navigation.View;
+import com.fu.cinema.desktop.util.AlertUtil;
 import com.fu.cinema.desktop.util.FxAsync;
 import com.fu.cinema.enums.MovieStatus;
 import javafx.animation.PauseTransition;
@@ -12,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -21,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
@@ -42,6 +47,7 @@ public class MovieController {
 
     private final MovieFacade facade;
     private final FxAsync fxAsync;
+    private final SceneManager sceneManager;
 
     @FXML private TextField tfSearch;
     @FXML private ComboBox<GenreItem> cbGenre;
@@ -56,6 +62,11 @@ public class MovieController {
     @FXML private TableColumn<MovieRow, String> colStatus;
     @FXML private Pagination pagination;
     @FXML private Label lblCount;
+
+    @FXML private Button btnAdd;
+    @FXML private Button btnEdit;
+    @FXML private Button btnDelete;
+
 
     private final ObservableList<MovieRow> rows = FXCollections.observableArrayList();
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));
@@ -87,15 +98,26 @@ public class MovieController {
         colAge.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().ageRating() != null ? c.getValue().ageRating().name() : ""));
         colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().status() != null ? c.getValue().status().name() : ""));
 
-        // Gán PseudoClass :stopped để tô xám dòng phim ngừng chiếu
-        table.setRowFactory(tv -> new TableRow<>() {
-            @Override
-            protected void updateItem(MovieRow m, boolean empty) {
-                super.updateItem(m, empty);
-                pseudoClassStateChanged(STOPPED, !empty && m != null && m.status() == MovieStatus.STOPPED);
-            }
+        // Gán PseudoClass :stopped để tô xám dòng phim ngừng chiếu & double click để sửa
+        table.setRowFactory(tv -> {
+            TableRow<MovieRow> row = new TableRow<>() {
+                @Override
+                protected void updateItem(MovieRow m, boolean empty) {
+                    super.updateItem(m, empty);
+                    pseudoClassStateChanged(STOPPED, !empty && m != null && m.status() == MovieStatus.STOPPED);
+                }
+            };
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    openDialog(row.getItem().id());
+                }
+            });
+            return row;
         });
         table.setItems(rows);
+
+        btnEdit.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
+        btnDelete.disableProperty().bind(table.getSelectionModel().selectedItemProperty().isNull());
 
         // Khởi tạo ComboBox trạng thái (có "Tất cả")
         List<MovieStatus> statuses = new ArrayList<>();
@@ -150,6 +172,48 @@ public class MovieController {
             lblCount.setText(result.totalElements() + " phim");
         });
     }
+
+
+    @FXML
+    private void onAdd() {
+        openDialog(null);
+    }
+
+    @FXML
+    private void onEdit() {
+        MovieRow sel = table.getSelectionModel().getSelectedItem();
+        if (sel != null) {
+            openDialog(sel.id());
+        }
+    }
+
+    private void openDialog(Long movieId) {
+        Window owner = table.getScene().getWindow();
+        fxAsync.run(() -> facade.getDialogData(movieId), data -> {
+            SceneManager.Loaded<MovieDialogController> dlg = sceneManager.load(View.MOVIE_DIALOG);
+            dlg.controller().open(owner, data.form(), data.genres()).ifPresent(form ->
+                    fxAsync.runVoid(
+                            () -> facade.save(form),
+                            () -> {
+                                AlertUtil.info("Đã lưu phim");
+                                load(pagination.getCurrentPageIndex());
+                            },
+                            null
+                    )
+            );
+        });
+    }
+
+    @FXML
+    private void onDelete() {
+        MovieRow m = table.getSelectionModel().getSelectedItem();
+        if (m == null || !AlertUtil.confirm("Xoá phim \"" + m.title() + "\"?")) return;
+        fxAsync.run(() -> facade.delete(m.id()), deleted -> {
+            AlertUtil.info(deleted ? "Đã xoá phim" : "Phim đã có suất chiếu → đã chuyển sang STOPPED"); // BR-06
+            load(pagination.getCurrentPageIndex());
+        });
+    }
+
 
     // Các Cell hiển thị văn bản đẹp mắt cho ComboBox có mục "Tất cả"
     private static class StatusCell extends ListCell<MovieStatus> {
