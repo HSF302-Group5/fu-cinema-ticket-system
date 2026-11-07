@@ -62,9 +62,11 @@ public class MovieController {
     @FXML private TableColumn<MovieRow, String> colStatus;
     @FXML private Pagination pagination;
     @FXML private Label lblCount;
+
     @FXML private Button btnAdd;
     @FXML private Button btnEdit;
     @FXML private Button btnDelete;
+
 
     private final ObservableList<MovieRow> rows = FXCollections.observableArrayList();
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));
@@ -171,6 +173,7 @@ public class MovieController {
         });
     }
 
+
     @FXML
     private void onAdd() {
         openDialog(null);
@@ -210,6 +213,7 @@ public class MovieController {
             load(pagination.getCurrentPageIndex());
         });
     }
+
 
     // Các Cell hiển thị văn bản đẹp mắt cho ComboBox có mục "Tất cả"
     private static class StatusCell extends ListCell<MovieStatus> {
