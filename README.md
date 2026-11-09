@@ -94,10 +94,10 @@ Hệ thống được thiết kế theo kiến trúc **1 repository, 2 entry poi
 
 | STT | Thành viên | Mã sinh viên | GitHub | Vai trò | Phụ trách chính Assignment 01 | Phụ trách chính Assignment 02 |
 |:---:|---|:---:|:---:|:---:|---|---|
-| 1 | **Dương Trong** | DE190867 | `@duogtrog06tk` | **Team Leader (A)** | Nền tảng, DB, Security Interceptor, Seed, Báo cáo doanh thu (TODO 1–4, 8, 12–15, 26, 32). | Kiến trúc desktop, JavaFX bootstrap, Navigation, Main layout, Admin login & DesktopSession, README & Release v2.0.0 (TODO 33, 34, 36, 46). |
-| 2 | **Phạm Minh Đức** | DE190988 | `@ducminh14-cmd` | **Developer (B)** | Domain Nội dung: Thể loại, Phim CRUD, Trang chủ, Review & Bình luận (TODO 18–21, 27, 31). | Shared Utilities (Async, Alert, Validator, Money), Bán vé tại quầy (Counter Sale), Quản lý đơn vé, Báo cáo doanh thu Desktop & Xuất CSV (TODO 35, 43, 44, 45). |
-| 3 | **Ngô Viết Bảo Huy** | DE190979 | `@ngo17574-ops` | **Developer (C)** | Domain Khách hàng: Admin quản trị khách, Lịch sử đặt vé, Hồ sơ cá nhân (TODO 16, 17, 29, 30). | Quản lý thể loại, Danh sách phim (tìm kiếm, lọc, phân trang), Dialog Thêm/Sửa/Xoá phim & Bean Validation (TODO 38, 39, 40). |
-| 4 | **Nguyễn Lâm Thi** | DE190848 | `@nguyenlamthi` | **Developer (D)** | Domain Vận hành: Phòng chiếu, Suất chiếu, Đơn hàng Admin, Đặt vé trực tuyến (TODO 22–25, 28). | Dashboard & KPI, Quản lý phòng & suất chiếu (chống trùng lịch), Component SeatMapView hiển thị sơ đồ ghế (TODO 37, 41, 42). |
+| 1 | **Dương Trong** | DE200109 | `@duogtrog06tk` | **Team Leader (A)** | Nền tảng, DB, Security Interceptor, Seed, Báo cáo doanh thu (TODO 1–4, 8, 12–15, 26, 32). | Kiến trúc desktop, JavaFX bootstrap, Navigation, Main layout, Admin login & DesktopSession, README & Release v2.0.0 (TODO 33, 34, 36, 46). |
+| 2 | **Phạm Minh Đức** | DE200053 | `@ducminh14-cmd` | **Developer (B)** | Domain Nội dung: Thể loại, Phim CRUD, Trang chủ, Review & Bình luận (TODO 18–21, 27, 31). | Shared Utilities (Async, Alert, Validator, Money), Bán vé tại quầy (Counter Sale), Quản lý đơn vé, Báo cáo doanh thu Desktop & Xuất CSV (TODO 35, 43, 44, 45). |
+| 3 | **Ngô Viết Bảo Huy** | DE200066 | `@ngo17574-ops` | **Developer (C)** | Domain Khách hàng: Admin quản trị khách, Lịch sử đặt vé, Hồ sơ cá nhân (TODO 16, 17, 29, 30). | Quản lý thể loại, Danh sách phim (tìm kiếm, lọc, phân trang), Dialog Thêm/Sửa/Xoá phim & Bean Validation (TODO 38, 39, 40). |
+| 4 | **Nguyễn Lâm Thi** | DE200045 | `@nguyenlamthi` | **Developer (D)** | Domain Vận hành: Phòng chiếu, Suất chiếu, Đơn hàng Admin, Đặt vé trực tuyến (TODO 22–25, 28). | Dashboard & KPI, Quản lý phòng & suất chiếu (chống trùng lịch), Component SeatMapView hiển thị sơ đồ ghế (TODO 37, 41, 42). |
 
 ### 5.2. Ma trận Pull Request & Review chéo Assignment 02
 
