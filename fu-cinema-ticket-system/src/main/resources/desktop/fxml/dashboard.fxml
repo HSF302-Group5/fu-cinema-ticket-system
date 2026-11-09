@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.fu.cinema.desktop.controller.DashboardController"
+      styleClass="page" spacing="16">
+
+    <!-- Header bar -->
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <Label text="Dashboard Tổng quan" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="lblUpdated" styleClass="text-muted"/>
+        <Button fx:id="btnRefresh" text="Làm mới" onAction="#onRefresh" styleClass="primary"/>
+    </HBox>
+
+    <!-- 3 KPI Cards -->
+    <HBox spacing="16">
+        <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+            <Label text="Phim đang chiếu" styleClass="kpi-title"/>
+            <Label fx:id="lblShowing" text="0" styleClass="kpi-value"/>
+        </VBox>
+        <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+            <Label text="Khách hàng" styleClass="kpi-title"/>
+            <Label fx:id="lblCustomers" text="0" styleClass="kpi-value"/>
+        </VBox>
+        <VBox styleClass="kpi-card, kpi-card-warning" HBox.hgrow="ALWAYS">
+            <Label text="Đơn chờ (PENDING)" styleClass="kpi-title"/>
+            <Label fx:id="lblPending" text="0" styleClass="kpi-value, text-warning"/>
+        </VBox>
+    </HBox>
+
+    <!-- BarChart -->
+    <VBox styleClass="chart-card" VBox.vgrow="ALWAYS" spacing="8">
+        <Label text="Suất chiếu hôm nay theo phòng" styleClass="section-title"/>
+        <BarChart fx:id="chartRooms" VBox.vgrow="ALWAYS" legendVisible="false">
+            <xAxis>
+                <CategoryAxis label="Phòng chiếu"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Số suất chiếu" minorTickVisible="false" tickUnit="1"/>
+            </yAxis>
+        </BarChart>
+    </VBox>
+
+</VBox>

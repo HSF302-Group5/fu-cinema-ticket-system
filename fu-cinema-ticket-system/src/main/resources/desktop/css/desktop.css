@@ -1,0 +1,162 @@
+.login              { -fx-background-color: #f9fafb; -fx-padding: 40; }
+.root               { -fx-font-family: "Segoe UI"; -fx-font-size: 13px; }
+.sidebar            { -fx-background-color: #1f2937; -fx-padding: 12; -fx-pref-width: 200; }
+.sidebar .button    { -fx-background-color: transparent; -fx-text-fill: #e5e7eb; -fx-alignment: center-left; }
+.sidebar .button:hover { -fx-background-color: #374151; }
+.brand              { -fx-text-fill: #e50914; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 0 0 12 0; }
+.button.primary     { -fx-background-color: #e50914; -fx-text-fill: white; -fx-font-weight: bold; }
+.status-bar         { -fx-padding: 4 12; -fx-background-color: #f3f4f6; }
+.page               { -fx-padding: 16; -fx-spacing: 12; }
+.page-title         { -fx-font-size: 20px; -fx-font-weight: bold; }
+.text-field:error, .combo-box:error, .date-picker:error, .spinner:error, .text-area:error {
+    -fx-border-color: #d32f2f; -fx-border-width: 1.5;
+}
+.table-row-cell:stopped            { -fx-background-color: #eeeeee; }
+.table-row-cell:stopped .table-cell { -fx-text-fill: #9e9e9e; }
+
+/* Booking Status Styles (từ develop) */
+.st-pending   { -fx-text-fill: #b45309; -fx-font-weight: bold; }
+.st-confirmed { -fx-text-fill: #15803d; -fx-font-weight: bold; }
+.st-cancelled { -fx-text-fill: #b91c1c; -fx-font-weight: bold; }
+
+/* Dashboard KPI & Chart */
+.kpi-card {
+    -fx-background-color: white;
+    -fx-padding: 16;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+.kpi-title {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+.kpi-value {
+    -fx-text-fill: #111827;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 0 0 0;
+}
+.kpi-card-warning {
+    -fx-border-color: #fde68a;
+    -fx-background-color: #fffbeb;
+}
+.text-warning {
+    -fx-text-fill: #d97706;
+}
+.text-muted {
+    -fx-text-fill: #6b7280;
+    -fx-font-style: italic;
+}
+.section-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+.chart-card {
+    -fx-background-color: white;
+    -fx-padding: 16;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+.chart-bar {
+    -fx-bar-fill: #e50914;
+}
+
+/* Sơ đồ ghế SeatMapView (TODO 42) */
+.seat-map-view {
+    -fx-padding: 16;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.screen-bar {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 3;
+}
+
+.screen-label {
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+
+.seat-row-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-font-size: 13px;
+}
+
+.seat {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #334155;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+}
+
+.seat:hover {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #94a3b8;
+}
+
+.seat:selected, .seat.seat-selected {
+    -fx-background-color: #16a34a;
+    -fx-border-color: #15803d;
+    -fx-text-fill: white;
+}
+
+.seat:sold, .seat.seat-sold {
+    -fx-background-color: #9ca3af;
+    -fx-border-color: #6b7280;
+    -fx-text-fill: #374151;
+    -fx-opacity: 0.85;
+    -fx-cursor: default;
+}
+
+.seat-legend-box {
+    -fx-padding: 10 16;
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 6;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6;
+}
+
+.seat-sample {
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-width: 1.5;
+}
+
+.seat-sample-available {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+}
+
+.seat-sample-selected {
+    -fx-background-color: #16a34a;
+    -fx-border-color: #15803d;
+}
+
+.seat-sample-sold {
+    -fx-background-color: #9ca3af;
+    -fx-border-color: #6b7280;
+}
+
+.legend-label {
+    -fx-text-fill: #475569;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

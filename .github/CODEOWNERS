@@ -6,64 +6,67 @@
 #   - C (Developer):                Ngô Viết Bảo Huy (@ngo17574-ops)
 #   - D (Developer):                Nguyễn Lâm Thi (@nguyenlamthi)
 #
-# Lưu ý về quy tắc GitHub:
-#   1. Thứ tự ưu tiên: Dòng nằm DƯỚI CÙNG khớp với file sẽ có quyền ưu tiên cao nhất.
+# LƯU Ý QUAN TRỌNG:
+#   Các quy tắc tự động gán Reviewer bên dưới tạm thời được comment để GitHub
+#   KHÔNG tự động gán Leader Dương Trong (@duogtrog06tk) vào review tất cả PR.
+#   Các thành viên tự gán Reviewer thủ công cho từng PR theo đúng Bảng 8.1 & 8.2:
+#     - PR của A (TODO 33, 34, 36, 46) -> Reviewer: D / C
+#     - PR của B (TODO 35, 43, 44, 45) -> Reviewer: D / A / C
+#     - PR của C (TODO 38, 39, 40)     -> Reviewer: B / D
+#     - PR của D (TODO 37, 41, 42)     -> Reviewer: A / C
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
 # 1. Người sở hữu mặc định cho toàn bộ repository (Leader - Dương Trong)
 # ------------------------------------------------------------------------------
-*                                                   @duogtrog06tk
+# *                                                   @duogtrog06tk
 
 # ------------------------------------------------------------------------------
 # 2. Nền tảng, cấu hình, build, hạ tầng dùng chung & báo cáo (Leader - Dương Trong)
 # ------------------------------------------------------------------------------
-**/pom.xml                                          @duogtrog06tk
-**/application*.properties*                         @duogtrog06tk
-**/src/main/resources/application*                  @duogtrog06tk
-**/config/**                                        @duogtrog06tk
-**/exception/**                                     @duogtrog06tk
-**/entity/**                                        @duogtrog06tk
-**/*Seed*                                           @duogtrog06tk
-**/*DataSeeder*                                     @duogtrog06tk
-**/*Auth*                                           @duogtrog06tk
-**/*Login*                                          @duogtrog06tk
-**/*Register*                                       @duogtrog06tk
-**/*Interceptor*                                    @duogtrog06tk
-**/*Report*                                         @duogtrog06tk
-**/*Dashboard*                                      @duogtrog06tk
+# **/pom.xml                                          @duogtrog06tk
+# **/application*.properties*                         @duogtrog06tk
+# **/src/main/resources/application*                  @duogtrog06tk
+# **/config/**                                        @duogtrog06tk
+# **/exception/**                                     @duogtrog06tk
+# **/entity/**                                        @duogtrog06tk
+# **/*Seed*                                           @duogtrog06tk
+# **/*DataSeeder*                                     @duogtrog06tk
+# **/*Auth*                                           @duogtrog06tk
+# **/*Login*                                          @duogtrog06tk
+# **/*Register*                                       @duogtrog06tk
+# **/*Interceptor*                                    @duogtrog06tk
+# **/*Report*                                         @duogtrog06tk
+# **/*Dashboard*                                      @duogtrog06tk
 
 # ------------------------------------------------------------------------------
 # 3. Domain NỘI DUNG & PHIM (Developer C - Ngô Viết Bảo Huy)
-#    - Thể loại, phim, đánh giá phim
 # ------------------------------------------------------------------------------
-**/*Genre*                                          @ngo17574-ops
-**/*Movie*                                          @ngo17574-ops
-**/*Review*                                         @ngo17574-ops
+# **/*Genre*                                          @ngo17574-ops
+# **/*Movie*                                          @ngo17574-ops
+# **/*Review*                                         @ngo17574-ops
 
 # ------------------------------------------------------------------------------
 # 4. Domain VẬN HÀNH & BÁN VÉ (Developer D - Nguyễn Lâm Thi)
-#    - Phòng chiếu, suất chiếu, sơ đồ ghế, vé
 # ------------------------------------------------------------------------------
-**/*Room*                                           @nguyenlamthi
-**/*Showtime*                                       @nguyenlamthi
-**/*Seat*                                           @nguyenlamthi
-**/*Ticket*                                         @nguyenlamthi
-**/*Booking*                                        @nguyenlamthi
+# **/*Room*                                           @nguyenlamthi
+# **/*Showtime*                                       @nguyenlamthi
+# **/*Seat*                                           @nguyenlamthi
+# **/*Ticket*                                         @nguyenlamthi
+# **/*Booking*                                        @nguyenlamthi
 
 # ------------------------------------------------------------------------------
 # 5. Domain KHÁCH HÀNG & BÁN VÉ / ĐƠN (Developer B - Phạm Minh Đức)
 # ------------------------------------------------------------------------------
-**/*Customer*                                       @ducminh14-cmd
-**/*Profile*                                        @ducminh14-cmd
-**/controller/customer/*Booking*                    @ducminh14-cmd
-**/service/*BookingHistory*                         @ducminh14-cmd
-**/dto/*BookingHistory*                             @ducminh14-cmd
+# **/*Customer*                                       @ducminh14-cmd
+# **/*Profile*                                        @ducminh14-cmd
+# **/controller/customer/*Booking*                    @ducminh14-cmd
+# **/service/*BookingHistory*                         @ducminh14-cmd
+# **/dto/*BookingHistory*                             @ducminh14-cmd
 
 # ------------------------------------------------------------------------------
 # 6. ASSIGNMENT 02 — DESKTOP EXTENSION (Leader A - Dương Trong)
-#    - Toàn bộ package com.fu.cinema.desktop và tài nguyên desktop do Leader A phê duyệt
 # ------------------------------------------------------------------------------
-**/src/main/java/com/fu/cinema/desktop/**           @duogtrog06tk
-**/src/main/resources/desktop/**                    @duogtrog06tk
-**/application-desktop.properties                   @duogtrog06tk
+# **/src/main/java/com/fu/cinema/desktop/**           @duogtrog06tk
+# **/src/main/resources/desktop/**                    @duogtrog06tk
+# **/application-desktop.properties                   @duogtrog06tk
