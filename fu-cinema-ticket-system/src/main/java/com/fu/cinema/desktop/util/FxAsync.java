@@ -33,15 +33,15 @@ public class FxAsync implements DisposableBean {
                 return work.call(); // background thread - KHÔNG đụng UI ở đây
             }
         };
-        if (busy != null) {
+        if (busy != null && !busy.disableProperty().isBound()) {
             busy.setDisable(true);
         }
         task.setOnSucceeded(e -> { // FX thread
-            if (busy != null) busy.setDisable(false);
+            if (busy != null && !busy.disableProperty().isBound()) busy.setDisable(false);
             onSuccess.accept(task.getValue());
         });
         task.setOnFailed(e -> { // FX thread
-            if (busy != null) busy.setDisable(false);
+            if (busy != null && !busy.disableProperty().isBound()) busy.setDisable(false);
             onError.accept(task.getException());
         });
         executor.submit(task);

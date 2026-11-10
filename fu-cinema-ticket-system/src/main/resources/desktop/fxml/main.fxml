@@ -8,16 +8,16 @@
     <left>
         <VBox styleClass="sidebar" spacing="4">
             <Label text="FU CINEMA" styleClass="brand"/>
-            <Button text="Dashboard"        onAction="#onDashboard"   maxWidth="Infinity"/>
-            <Button text="Bán vé tại quầy"  onAction="#onCounterSale" maxWidth="Infinity" styleClass="primary"/>
-            <Button text="Đơn đặt vé"       onAction="#onBooking"     maxWidth="Infinity"/>
+            <Button fx:id="btnNavDashboard"   text="Dashboard"             onAction="#onDashboard"   maxWidth="Infinity"/>
+            <Button fx:id="btnNavCounterSale" text="Bán vé tại quầy"       onAction="#onCounterSale" maxWidth="Infinity"/>
+            <Button fx:id="btnNavBooking"     text="Đơn đặt vé"            onAction="#onBooking"     maxWidth="Infinity"/>
             <Separator/>
-            <Button text="Thể loại"          onAction="#onGenre"       maxWidth="Infinity"/>
-            <Button text="Phim"              onAction="#onMovie"       maxWidth="Infinity"/>
-            <Button text="Phòng &amp; Suất chiếu" onAction="#onSchedule"   maxWidth="Infinity"/>
-            <Button text="Báo cáo"           onAction="#onReport"      maxWidth="Infinity"/>
+            <Button fx:id="btnNavGenre"       text="Thể loại"               onAction="#onGenre"       maxWidth="Infinity"/>
+            <Button fx:id="btnNavMovie"       text="Phim"                   onAction="#onMovie"       maxWidth="Infinity"/>
+            <Button fx:id="btnNavSchedule"    text="Phòng &amp; Suất chiếu" onAction="#onSchedule"   maxWidth="Infinity"/>
+            <Button fx:id="btnNavReport"      text="Báo cáo"                onAction="#onReport"      maxWidth="Infinity"/>
             <Region VBox.vgrow="ALWAYS"/>
-            <Button text="Đăng xuất"         onAction="#onLogout"      maxWidth="Infinity"/>
+            <Button text="Đăng xuất"         onAction="#onLogout"          maxWidth="Infinity"/>
         </VBox>
     </left>
     <bottom>
@@ -28,4 +28,3 @@
         </HBox>
     </bottom>
 </BorderPane>
-

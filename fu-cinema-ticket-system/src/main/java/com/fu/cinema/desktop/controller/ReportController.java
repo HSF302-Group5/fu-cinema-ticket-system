@@ -10,12 +10,15 @@ import com.fu.cinema.desktop.util.FxAsync;
 import com.fu.cinema.desktop.util.MoneyUtil;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -58,6 +61,7 @@ public class ReportController {
     @FXML private TableColumn<ReportBookingRow, String> colTotal;
 
     private final ObjectProperty<ReportData> currentData = new SimpleObjectProperty<>();
+    private final BooleanProperty exporting = new SimpleBooleanProperty(false);
     private final ObservableList<ReportBookingRow> bookingRows = FXCollections.observableArrayList();
 
     @FXML
@@ -75,9 +79,12 @@ public class ReportController {
             }
         });
 
-        // 2. Tắt animation biểu đồ để vẽ mượt và tránh xung đột rendering
+        // 2. Cấu hình biểu đồ: Tắt animation để vẽ chuẩn xác và tránh xung đột layout khi nạp lại
         chartRevenue.setAnimated(false);
         pieTickets.setAnimated(false);
+        pieTickets.setLegendVisible(true);
+        pieTickets.setLegendSide(Side.BOTTOM);
+        pieTickets.setLabelsVisible(false); // Dùng Legend và Tooltip thay cho nhãn callout dễ bị đè góc
 
         // 3. Cấu hình bảng danh sách đơn đặt vé qua Lambda
         colId.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().id()));
@@ -89,9 +96,10 @@ public class ReportController {
 
         tableBookings.setItems(bookingRows);
 
-        // 4. Binding nút Xuất CSV: Tự động vô hiệu hoá khi báo cáo không có dữ liệu
+        // 4. Binding nút Xuất CSV: Vô hiệu hoá khi đang xuất hoặc khi báo cáo rỗng
         btnExport.disableProperty().bind(Bindings.createBooleanBinding(
-                () -> currentData.get() == null || currentData.get().isEmpty(), currentData));
+                () -> exporting.get() || currentData.get() == null || currentData.get().isEmpty(),
+                exporting, currentData));
 
         lblEmpty.managedProperty().bind(lblEmpty.visibleProperty());
 
@@ -115,30 +123,50 @@ public class ReportController {
         lblTotals.setText("Tổng kết: %d đơn  ·  %d vé  ·  %s".formatted(
                 d.totalBookings(), d.totalTickets(), MoneyUtil.format(d.totalRevenue())));
 
-        // Vẽ BarChart doanh thu theo phim
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Doanh thu");
-        for (RevenueRow r : d.revenue()) {
-            series.getData().add(new XYChart.Data<>(r.title(), r.revenue()));
-        }
-        chartRevenue.getData().setAll(List.of(series));
-
-        // Cài đặt Tooltip chi tiết cho từng cột của BarChart
-        Platform.runLater(() -> {
-            for (int i = 0; i < series.getData().size() && i < d.revenue().size(); i++) {
-                RevenueRow r = d.revenue().get(i);
-                XYChart.Data<String, Number> item = series.getData().get(i);
-                if (item.getNode() != null) {
-                    Tooltip.install(item.getNode(), new Tooltip(
-                            "%s: %d vé – %s".formatted(r.title(), r.tickets(), MoneyUtil.format(r.revenue()))));
-                }
+        // 1. Xóa sạch dữ liệu cũ của BarChart trước khi thêm để tránh duplicate khi bấm nhiều lần
+        chartRevenue.getData().clear();
+        if (!d.isEmpty()) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Doanh thu");
+            for (RevenueRow r : d.revenue()) {
+                series.getData().add(new XYChart.Data<>(r.title(), r.revenue()));
             }
-        });
+            chartRevenue.getData().add(series);
 
-        // Vẽ PieChart tỷ trọng số vé
-        pieTickets.getData().setAll(d.revenue().stream()
-                .map(r -> new PieChart.Data(r.title() + " (" + r.tickets() + " vé)", r.tickets()))
-                .toList());
+            // Cài đặt Tooltip chi tiết cho từng cột của BarChart
+            Platform.runLater(() -> {
+                for (int i = 0; i < series.getData().size() && i < d.revenue().size(); i++) {
+                    RevenueRow r = d.revenue().get(i);
+                    XYChart.Data<String, Number> item = series.getData().get(i);
+                    if (item.getNode() != null) {
+                        Tooltip.install(item.getNode(), new Tooltip(
+                                "%s: %d vé – %s".formatted(r.title(), r.tickets(), MoneyUtil.format(r.revenue()))));
+                    }
+                }
+            });
+        }
+
+        // 2. Xóa sạch dữ liệu cũ của PieChart trước khi thêm để tránh đè lát cắt và nhãn
+        pieTickets.getData().clear();
+        if (!d.isEmpty()) {
+            List<PieChart.Data> pieData = d.revenue().stream()
+                    .map(r -> new PieChart.Data(r.title() + " (" + r.tickets() + " vé)", r.tickets()))
+                    .toList();
+            pieTickets.getData().addAll(pieData);
+
+            // Cài đặt Tooltip chi tiết hiển thị tỷ lệ phần trăm cho từng lát cắt
+            Platform.runLater(() -> {
+                for (int i = 0; i < pieData.size() && i < d.revenue().size(); i++) {
+                    RevenueRow r = d.revenue().get(i);
+                    PieChart.Data slice = pieData.get(i);
+                    if (slice.getNode() != null) {
+                        double pct = d.totalTickets() > 0 ? (r.tickets() * 100.0 / d.totalTickets()) : 0;
+                        Tooltip.install(slice.getNode(), new Tooltip(
+                                "%s: %d vé (%.1f%%)".formatted(r.title(), r.tickets(), pct)));
+                    }
+                }
+            });
+        }
     }
 
     @FXML
@@ -158,11 +186,22 @@ public class ReportController {
             return; // Người dùng bấm Cancel -> không làm gì, không văng lỗi
         }
 
-        // Xuất file chạy trên Virtual Thread qua FxAsync (TECH-15)
-        fxAsync.runVoid(
-                () -> CsvExporter.write(file.toPath(), snapshot),
-                () -> AlertUtil.info("Xuất file CSV thành công: " + file.getName()),
-                btnExport
+        // Xuất file an toàn qua Virtual Thread, quản lý trạng thái qua biến exporting
+        exporting.set(true);
+        fxAsync.run(
+                () -> {
+                    CsvExporter.write(file.toPath(), snapshot);
+                    return null;
+                },
+                v -> {
+                    exporting.set(false);
+                    AlertUtil.info("Xuất file CSV thành công: " + file.getName());
+                },
+                ex -> {
+                    exporting.set(false);
+                    AlertUtil.showError(ex);
+                },
+                null // Không truyền btnExport vào busy vì disableProperty đã được bind
         );
     }
 }

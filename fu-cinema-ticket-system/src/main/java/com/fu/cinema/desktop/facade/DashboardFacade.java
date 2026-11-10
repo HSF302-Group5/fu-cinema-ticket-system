@@ -24,7 +24,9 @@ public class DashboardFacade {
 
     public DashboardData load() {
         List<RoomCount> rooms = showtimeService.countTodayByRoom().stream()
-                .map(r -> new RoomCount(r.getRoomName(), r.getShowtimeCount()))
+                .map(r -> new RoomCount(
+                        r.getRoomName(),
+                        r.getShowtimeCount() != null ? r.getShowtimeCount() : 0L))
                 .toList();
 
         return new DashboardData(

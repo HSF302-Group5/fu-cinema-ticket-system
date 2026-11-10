@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Component
 @Scope("prototype")
@@ -32,6 +34,14 @@ public class MainController {
     @FXML private Label lblUser;
     @FXML private Label lblClock;
 
+    @FXML private Button btnNavDashboard;
+    @FXML private Button btnNavCounterSale;
+    @FXML private Button btnNavBooking;
+    @FXML private Button btnNavGenre;
+    @FXML private Button btnNavMovie;
+    @FXML private Button btnNavSchedule;
+    @FXML private Button btnNavReport;
+
     private Timeline clock;
 
     @FXML
@@ -44,13 +54,29 @@ public class MainController {
         onDashboard();
     }
 
-    @FXML private void onDashboard()   { sceneManager.showIn(root, View.DASHBOARD); }
-    @FXML private void onCounterSale() { sceneManager.showIn(root, View.COUNTER_SALE); }
-    @FXML private void onBooking()     { sceneManager.showIn(root, View.BOOKING); }
-    @FXML private void onGenre()       { sceneManager.showIn(root, View.GENRE); }
-    @FXML private void onMovie()       { sceneManager.showIn(root, View.MOVIE); }
-    @FXML private void onSchedule()    { sceneManager.showIn(root, View.SCHEDULE); }
-    @FXML private void onReport()      { sceneManager.showIn(root, View.REPORT); }
+    private void setActiveNav(Button activeBtn, View view) {
+        List<Button> navButtons = List.of(
+                btnNavDashboard, btnNavCounterSale, btnNavBooking,
+                btnNavGenre, btnNavMovie, btnNavSchedule, btnNavReport
+        );
+        for (Button btn : navButtons) {
+            if (btn != null) {
+                btn.getStyleClass().remove("active");
+            }
+        }
+        if (activeBtn != null && !activeBtn.getStyleClass().contains("active")) {
+            activeBtn.getStyleClass().add("active");
+        }
+        sceneManager.showIn(root, view);
+    }
+
+    @FXML private void onDashboard()   { setActiveNav(btnNavDashboard, View.DASHBOARD); }
+    @FXML private void onCounterSale() { setActiveNav(btnNavCounterSale, View.COUNTER_SALE); }
+    @FXML private void onBooking()     { setActiveNav(btnNavBooking, View.BOOKING); }
+    @FXML private void onGenre()       { setActiveNav(btnNavGenre, View.GENRE); }
+    @FXML private void onMovie()       { setActiveNav(btnNavMovie, View.MOVIE); }
+    @FXML private void onSchedule()    { setActiveNav(btnNavSchedule, View.SCHEDULE); }
+    @FXML private void onReport()      { setActiveNav(btnNavReport, View.REPORT); }
 
     @FXML
     private void onLogout() {
@@ -59,4 +85,3 @@ public class MainController {
         sceneManager.switchTo(View.LOGIN);
     }
 }
-

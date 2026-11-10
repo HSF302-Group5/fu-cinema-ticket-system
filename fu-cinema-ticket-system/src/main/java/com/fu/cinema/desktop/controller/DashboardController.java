@@ -2,15 +2,19 @@ package com.fu.cinema.desktop.controller;
 
 import com.fu.cinema.desktop.facade.DashboardFacade;
 import com.fu.cinema.desktop.model.DashboardData;
+import com.fu.cinema.desktop.model.RoomCount;
 import com.fu.cinema.desktop.util.FxAsync;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Component
 @Scope("prototype")
@@ -43,7 +46,13 @@ public class DashboardController {
 
     @FXML
     private void initialize() {
+        // Cấu hình BarChart: tắt animation để tránh xung đột layout khi nạp lại dữ liệu
         chartRooms.setAnimated(false);
+        if (chartRooms.getYAxis() instanceof NumberAxis yAxis) {
+            yAxis.setForceZeroInRange(true);
+            yAxis.setMinorTickVisible(false);
+            yAxis.setTickUnit(1);
+        }
 
         autoRefresh = new Timeline(new KeyFrame(Duration.seconds(60), e -> refresh()));
         autoRefresh.setCycleCount(Animation.INDEFINITE);
@@ -73,11 +82,29 @@ public class DashboardController {
         lblCustomers.setText(String.valueOf(d.customers()));
         lblPending.setText(String.valueOf(d.pendingBookings()));
 
+        // Xóa sạch dữ liệu cũ trước khi vẽ series mới (tránh lỗi JavaFX không cập nhật chiều cao cột khi danh mục đã tồn tại)
+        chartRooms.getData().clear();
+
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Suất chiếu hôm nay");
-        d.todayByRoom().forEach(r -> series.getData().add(new XYChart.Data<>(r.roomName(), r.count())));
+        for (RoomCount r : d.todayByRoom()) {
+            series.getData().add(new XYChart.Data<>(r.roomName(), r.count()));
+        }
 
-        chartRooms.getData().setAll(List.of(series));
+        chartRooms.getData().add(series);
+
+        // Cài đặt Tooltip chi tiết cho từng cột (hiển thị rõ số suất chiếu khi rê chuột)
+        Platform.runLater(() -> {
+            for (int i = 0; i < series.getData().size() && i < d.todayByRoom().size(); i++) {
+                RoomCount r = d.todayByRoom().get(i);
+                XYChart.Data<String, Number> item = series.getData().get(i);
+                if (item.getNode() != null) {
+                    Tooltip.install(item.getNode(), new Tooltip(
+                            "%s: %d suất chiếu hôm nay".formatted(r.roomName(), r.count())));
+                }
+            }
+        });
+
         lblUpdated.setText("Cập nhật lúc " + LocalTime.now().format(TIME_FORMAT));
     }
 }
