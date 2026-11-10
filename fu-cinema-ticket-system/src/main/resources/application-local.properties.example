@@ -1,4 +1,0 @@
-# Copy file nay thanh application-local.properties (da .gitignore) va dien thong tin tai khoan SQL Server cua ban
-spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=FUCinemaTicketDB;encrypt=true;trustServerCertificate=true
-spring.datasource.username=sa
-spring.datasource.password=sa

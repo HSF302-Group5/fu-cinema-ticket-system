@@ -17,7 +17,7 @@ public class CinemaFxApp extends Application {
         context = new SpringApplicationBuilder(FuCinemaTicketSystemApplication.class)
                 .web(WebApplicationType.NONE)
                 .headless(false)
-                .profiles("local", "desktop") // nạp profile local và desktop để dùng chung DataSource với Web
+                .profiles("desktop") // cộng thêm profile "local" khai báo trong application.properties
                 .run(getParameters().getRaw().toArray(String[]::new));
     }
 
@@ -34,3 +34,4 @@ public class CinemaFxApp extends Application {
         Platform.exit();
     }
 }
+
